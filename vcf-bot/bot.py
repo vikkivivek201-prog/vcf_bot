@@ -1,6 +1,8 @@
 from flask import Flask
-import threading
 import os
+import threading
+import json
+from telegram.ext import Updater
 
 app = Flask(__name__)
 
@@ -8,11 +10,18 @@ app = Flask(__name__)
 def home():
     return "Bot is running!"
 
-def run():
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+def run_bot():
+    updater = Updater("8728597335:AAGiUAbgh4BEBT7FPkR7aTJhlAYwTcHQn2o")   # apna token daalo
+    dp = updater.dispatcher
+    updater.start_polling()
 
-threading.Thread(target=run).start()
+# 👇 bot alag thread me chalega
+threading.Thread(target=run_bot).start()
+
+# 👇 Flask main thread me chalega (IMPORTANT)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
 
 import json
 from telegram.ext import Updater
