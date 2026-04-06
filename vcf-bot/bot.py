@@ -1,20 +1,26 @@
-import http.server
-import socketserver
+from flask import Flask
 import threading
 import os
 
-def run_server():
-    PORT = int(os.environ.get("PORT", 10000))
-    Handler = http.server.SimpleHTTPRequestHandler
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        httpd.serve_forever()
+app = Flask(__name__)
 
-threading.Thread(target=run_server).start()
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+def run():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
+
+threading.Thread(target=run).start()
 
 import json
-import os
-from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import Updater
+
+updater = Updater("8728597335:AAGiUAbgh4BEBT7FPkR7aTJhlAYwTcHQn2o")
+dp = updater.dispatcher
+
+updater.start_polling()
 
 TOKEN = "8728597335:AAGiUAbgh4BEBT7FPkR7aTJhlAYwTcHQn2o"
 ADMIN_ID = 5328734113
