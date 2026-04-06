@@ -1,3 +1,16 @@
+import http.server
+import socketserver
+import threading
+import os
+
+def run_server():
+    PORT = int(os.environ.get("PORT", 10000))
+    Handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        httpd.serve_forever()
+
+threading.Thread(target=run_server).start()
+
 import json
 import os
 from telegram import Update, ReplyKeyboardMarkup
